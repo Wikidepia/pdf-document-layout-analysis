@@ -2,6 +2,7 @@ import json
 import os
 import subprocess
 import tempfile
+import uuid
 from collections import Counter
 from os.path import join, exists
 from pathlib import Path
@@ -109,7 +110,7 @@ class PdfFeatures:
     @staticmethod
     def from_pdf_path(pdf_path, xml_path: str = None):
         remove_xml = False if xml_path else True
-        xml_path = xml_path if xml_path else join(tempfile.gettempdir(), "pdf_etree.xml")
+        xml_path = xml_path if xml_path else join(tempfile.gettempdir(), f"{uuid.uuid4()}.xml")
 
         if PdfFeatures.is_pdf_encrypted(pdf_path):
             subprocess.run(["qpdf", "--decrypt", "--replace-input", pdf_path])
